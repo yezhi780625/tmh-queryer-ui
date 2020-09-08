@@ -79,7 +79,7 @@ function App() {
               <CircularProgress color="inherit" />
             </Backdrop>
           )}
-          {STATE.LOADING === state && (
+          {STATE.SUCCEEDED === state && (
             <div
               className={css`
                 display: grid;
