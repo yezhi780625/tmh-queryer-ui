@@ -7,6 +7,7 @@ import {
   Toolbar,
   AppBar,
   Paper,
+  CssBaseline,
 } from "@material-ui/core";
 import {
   makeStyles,
@@ -45,6 +46,7 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <div
         className={css`
           height: 100%;
@@ -82,16 +84,32 @@ function App() {
           {STATE.SUCCEEDED === state && (
             <div
               className={css`
-                display: grid;
-                grid-template-columns: 1fr 1fr 1fr;
-                grid-gap: 8px;
+                display: flex;
+                flex-wrap: wrap;
               `}
             >
               {data.map(({ date, noon, href }) => (
-                <Paper key={`${date} ${noon}`}>
+                <Paper
+                  key={`${date} ${noon}`}
+                  className={css`
+                    padding: 12px;
+                    margin-bottom: 16px;
+                    margin-right: 8px;
+                    display: flex;
+                    width: fit-content;
+                    align-items: center;
+                    & > * {
+                      margin-right: 8px;
+                    }
+                  `}
+                >
                   <Typography>{date}</Typography>
                   <Typography>{noon}</Typography>
-                  <Button component="a" href={href}>
+                  <Button
+                    onClick={() => window.open(href)}
+                    color="primary"
+                    variant="outlined"
+                  >
                     Go
                   </Button>
                 </Paper>
