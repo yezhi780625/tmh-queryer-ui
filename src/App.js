@@ -8,6 +8,7 @@ import {
   AppBar,
   Paper,
   CssBaseline,
+  useMediaQuery,
 } from "@material-ui/core";
 import {
   makeStyles,
@@ -38,8 +39,8 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
   const classes = useStyles();
+  const isSmall = useMediaQuery("(max-width:600px)");
   const { load, state, data } = useInstance();
-
   useEffect(() => {
     load();
   }, [load]);
@@ -55,15 +56,14 @@ function App() {
       >
         <AppBar position="fixed">
           <Toolbar>
-            <Typography variant="h4">
+            <Typography variant={isSmall ? "h6" : "h4"}>
               台南市立醫院 張炯宏醫生 門診預約
             </Typography>
           </Toolbar>
         </AppBar>
         <div
           className={css`
-            margin-top: 64px;
-            padding: 16px;
+            padding: 80px 16px 16px;
           `}
         >
           <Button
@@ -110,7 +110,7 @@ function App() {
                     color="primary"
                     variant="outlined"
                   >
-                    Go
+                    book
                   </Button>
                 </Paper>
               ))}
