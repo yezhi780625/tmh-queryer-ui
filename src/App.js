@@ -9,12 +9,14 @@ import {
   Paper,
   CssBaseline,
   useMediaQuery,
+  IconButton,
 } from "@material-ui/core";
 import {
   makeStyles,
   ThemeProvider,
   createMuiTheme,
 } from "@material-ui/core/styles";
+import { Launch, Refresh } from "@material-ui/icons";
 import useInstance, { STATE } from "./useInstance";
 import { css } from "emotion";
 
@@ -73,6 +75,8 @@ function App() {
             color="primary"
             onClick={load}
             variant="contained"
+            endIcon={<Refresh />}
+            size="small"
           >
             Refresh
           </Button>
@@ -81,41 +85,42 @@ function App() {
               <CircularProgress color="inherit" />
             </Backdrop>
           )}
-          {STATE.SUCCEEDED === state && (
-            <div
-              className={css`
-                display: flex;
-                flex-wrap: wrap;
-              `}
-            >
-              {data.map(({ date, noon, href }) => (
-                <Paper
-                  key={`${date} ${noon}`}
-                  className={css`
-                    padding: 12px;
-                    margin-bottom: 16px;
+          <div
+            className={css`
+              display: flex;
+              flex-wrap: wrap;
+            `}
+          >
+            {data.map(({ date, noon, href }) => (
+              <Paper
+                key={`${date} ${noon}`}
+                className={css`
+                  padding: 8px 12px;
+                  margin-bottom: 16px;
+                  margin-right: 8px;
+                  display: flex;
+                  width: fit-content;
+                  align-items: center;
+                  & > * {
                     margin-right: 8px;
-                    display: flex;
-                    width: fit-content;
-                    align-items: center;
-                    & > * {
-                      margin-right: 8px;
-                    }
-                  `}
+                  }
+                `}
+              >
+                <Typography>{date}</Typography>
+                <Typography>{noon}</Typography>
+                <IconButton
+                  component="a"
+                  href={href}
+                  target="_blank"
+                  color="primary"
+                  variant="outlined"
+                  size="small"
                 >
-                  <Typography>{date}</Typography>
-                  <Typography>{noon}</Typography>
-                  <Button
-                    onClick={() => window.open(href)}
-                    color="primary"
-                    variant="outlined"
-                  >
-                    book
-                  </Button>
-                </Paper>
-              ))}
-            </div>
-          )}
+                  <Launch />
+                </IconButton>
+              </Paper>
+            ))}
+          </div>
         </div>
       </div>
     </ThemeProvider>
