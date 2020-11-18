@@ -1,7 +1,8 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import Axios from "axios";
 
-const url = "https://tmh-queryer.herokuapp.com/";
+// const url = process.env.REACT_APP_URL;
+const url = "http://localhost:3000";
 
 export const STATE = {
   INIT: "init",
@@ -14,8 +15,10 @@ export default () => {
   const [state, setState] = useState(STATE.INIT);
   const [data, setData] = useState([]);
   const [token, setToken] = useState(null);
+  const sp = useRef();
 
-  const load = useCallback(() => {
+  const load = useCallback((fromDate, toDate, days) => {
+    sp.current = { fromDate, toDate, days };
     setToken(Symbol());
     setState(STATE.LOADING);
   }, []);
@@ -23,7 +26,9 @@ export default () => {
   useEffect(() => {
     if (token !== null) {
       const query = async () => {
-        const { data, status } = await Axios.get(url);
+        const { data, status } = await Axios.get(url, {
+          params: sp.current,
+        });
         try {
           if (status === 200) {
             setState(STATE.SUCCEEDED);
